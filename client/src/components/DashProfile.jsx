@@ -30,6 +30,7 @@ function DashProfile() {
     if (imageFile) {
       uploadImage();
     }
+    //eslint-disable-next-line
   }, [imageFile]);
 
   const uploadImage = () => {
@@ -45,6 +46,7 @@ function DashProfile() {
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         setImageUploadProgress(progress.toFixed(0));
       },
+      //eslint-disable-next-line
       (error) => {
         setImageUploadError(
           "Could not upload image (File must be less the  2 MB)"
