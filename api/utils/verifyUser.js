@@ -5,6 +5,7 @@ export const verifyToken = (req, res, next) => {
   if (!req.cookies) {
     return next(errorHandler(401, "Please login first"));
   }
+
   const token = req.cookies.access_token;
   if (!token) {
     return next(errorHandler(401, "Please login first"));
