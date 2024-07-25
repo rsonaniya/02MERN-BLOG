@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
+import { Link } from "react-router-dom";
 
 import {
   getDownloadURL,
@@ -33,7 +34,7 @@ function DashProfile() {
   const [updateUserError, setUpdateUserError] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({});
-  const { currentUser, error } = useSelector((state) => state.user);
+  const { currentUser, error, loading } = useSelector((state) => state.user);
   const filePickerRef = useRef();
   const dispatch = useDispatch();
 
@@ -224,13 +225,24 @@ function DashProfile() {
           onChange={handleChange}
         />
         <Button
-          disabled={imageFileUploading}
+          disabled={imageFileUploading || loading}
           type="submit"
           gradientDuoTone="purpleToBlue"
           outline
         >
-          Update
+          {loading ? "Loading" : "Update"}
         </Button>
+        {currentUser.isAdmin && (
+          <Link to="/create-post">
+            <Button
+              type="button"
+              gradientDuoTone="purpleToPink"
+              className="w-full"
+            >
+              Create a post
+            </Button>
+          </Link>
+        )}
       </form>
       <div className="text-red-500 flex justify-between mt-5">
         <span className="cursor-pointer" onClick={() => setShowModal(true)}>
