@@ -2,7 +2,6 @@ import { errorHandler } from "../utils/error.js";
 import Post from "../models/post.model.js";
 
 export const create = async (req, res, next) => {
-  console.log(req.user);
   if (!req.user.isAdmin) {
     return next(errorHandler(403, "You need to be an admin to create a post!"));
   }
@@ -71,4 +70,20 @@ export const getposts = async (req, res, next) => {
   }
 };
 
-// ...(req.query.userId &&
+export const deletepost = async (req, res, next) => {
+  if (!req.user.isAdmin || req.user.id !== req.params.userId) {
+    return next(
+      errorHandler(403, "You are not allowed to perform this operation")
+    );
+  }
+  if (!req.params.postId) {
+    return next(errorHandler(403, "Post id is required to delete the post"));
+  }
+
+  try {
+    await Post.findByIdAndDelete(req.params.postId);
+    res.status(200).json("The post has been deleted");
+  } catch (error) {
+    return next(error);
+  }
+};
