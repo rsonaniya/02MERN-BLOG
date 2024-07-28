@@ -5,7 +5,6 @@ export const createComment = async (req, res, next) => {
   try {
     const { content, postId, userId } = req.body;
 
-    console.log({ content, postId, userId });
     if (!content || !userId || !postId) {
       return next(
         errorHandler(
@@ -31,6 +30,19 @@ export const createComment = async (req, res, next) => {
 
     await newComment.save();
     res.status(200).json(newComment);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getPostComments = async (req, res, next) => {
+  const { postId } = req.params;
+  if (!postId) {
+    return next(errorHandler(400, "A valid post id is required"));
+  }
+  try {
+    const comments = await Comment.find({ postId }).sort({ createdAt: -1 });
+    res.status(200).json(comments);
   } catch (error) {
     next(error);
   }

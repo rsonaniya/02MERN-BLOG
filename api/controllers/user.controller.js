@@ -121,3 +121,19 @@ export const getusers = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getUser = async (req, res, next) => {
+  const { userId } = req.params;
+  if (!userId) {
+    return next(errorHandler(400, "User is required"));
+  }
+  try {
+    const user = await User.findById(userId).select("-password");
+    if (!user) {
+      return next(errorHandler(400, "No user found by the given user id"));
+    }
+    res.status(200).json(user);
+  } catch (error) {
+    return next(error);
+  }
+};
