@@ -35,11 +35,13 @@ const Comment = ({ comment }) => {
           <span className="font-bold mr-1 text-xs truncate">
             {user ? `@${user.username}` : "anonymous user"}
           </span>
-          {/* eslint-disable-next-line */}
+
           <span className="text-gray-500 text-xs">
+            {/* eslint-disable-next-line */}
             {moment(comment.createdAt).fromNow()}
           </span>
         </div>
+        {/* eslint-disable-next-line */}
         <p className="text-gray-500 mb-2">{comment.content}</p>
       </div>
     </div>
