@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import moment from "moment";
+import { FaThumbsUp } from "react-icons/fa";
+import { useSelector } from "react-redux";
 
 //eslint-disable-next-line
-const Comment = ({ comment }) => {
+const Comment = ({ comment, onLike }) => {
   const [user, setUser] = useState({});
+  const { currentUser } = useSelector((state) => state.user);
   useEffect(() => {
     const getUser = async () => {
       try {
@@ -43,6 +46,26 @@ const Comment = ({ comment }) => {
         </div>
         {/* eslint-disable-next-line */}
         <p className="text-gray-500 mb-2">{comment.content}</p>
+        <div className="flex items-center pt-2 text-xs gap-2 border-t dark:border-gray-700 max-w-fit">
+          <button
+            type="button"
+            // eslint-disable-next-line
+            onClick={() => onLike(comment._id)}
+            className={`${
+              currentUser && comment.likes.includes(currentUser._id)
+                ? "text-blue-500"
+                : "text-gray-400"
+            } hover:text-blue-500`}
+          >
+            <FaThumbsUp className="text-sm" />
+          </button>
+          <p className="text-gray-500">
+            {comment.numberOfLikes > 0 &&
+              comment.numberOfLikes +
+                " " +
+                (comment.numberOfLikes === 1 ? "like" : "likes")}
+          </p>
+        </div>
       </div>
     </div>
   );
