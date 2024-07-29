@@ -124,3 +124,36 @@ export const deleteComment = async (req, res, next) => {
     return next(error);
   }
 };
+
+export const getComments = async (req, res, next) => {
+  if (!req.user.isAdmin) {
+    return next(errorHandler(403, "You are not allowed to access this route"));
+  }
+  try {
+    const startIndex = req.query.startIndex * 1 || 0;
+    const limit = req.query.limit * 1 || 9;
+    const sortDirection = req.query.sort === "asc" ? -1 : 1;
+    const comments = await Comment.find()
+      .skip(startIndex)
+      .limit(limit)
+      .sort({ createdAt: sortDirection });
+    const totalComments = await Comment.countDocuments();
+    const now = new Date();
+    const oneMonthAgo = new Date(
+      now.getFullYear(),
+      now.getMonth() - 1,
+      now.getDate()
+    );
+    const lastMonthComment = await Comment.countDocuments({
+      createdAt: { $gte: oneMonthAgo },
+    });
+
+    res.status(200).json({
+      totalComments,
+      lastMonthComment,
+      comments,
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
