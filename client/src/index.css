@@ -34,3 +34,7 @@ body {
 .post-content a:hover {
   text-decoration: underline;
 }
+
+.dark .post-content * {
+  color: #999 !important;
+}
