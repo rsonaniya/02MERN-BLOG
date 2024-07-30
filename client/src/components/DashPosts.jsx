@@ -72,6 +72,9 @@ const DashPosts = () => {
       console.log(error);
     }
   };
+
+  const capatilize = (text) => text.slice(0, 1).toUpperCase() + text.slice(1);
+
   return (
     <div className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500">
       {currentUser.isAdmin && userPosts.length > 0 ? (
@@ -110,7 +113,7 @@ const DashPosts = () => {
                       {post.title}
                     </Link>
                   </Table.Cell>
-                  <Table.Cell>{post.category}</Table.Cell>
+                  <Table.Cell>{capatilize(post.category)}</Table.Cell>
                   <Table.Cell>
                     <span
                       className="font-medium text-red-500 hover:underline cursor-pointer"

@@ -40,7 +40,7 @@ const DashComments = () => {
 
       if (res.ok) {
         setComments((prev) => [...prev, ...data.comments]);
-        if (data.users.length < 9) {
+        if (data.comments.length < 9) {
           setShowMore(false);
         }
       }
